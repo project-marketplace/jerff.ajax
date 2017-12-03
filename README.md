@@ -18,3 +18,8 @@ $APPLICATION->IncludeComponent("project.ajax:wrapper", ".default", array(
 
 ![primer1.png](images/primer1.png)
 ![primer2.png](images/primer2.png)
+
+
+```php
+$APPLICATION->IncludeComponent("project.ajax:wrapper", "callback.webform", array());
+```
