@@ -29,12 +29,14 @@ class project_ajax extends CModule {
 
     public function InstallFiles($arParams = array()) {
         CopyDirFiles($_SERVER['DOCUMENT_ROOT'] . '/local/modules/' . $this->MODULE_ID . '/install/components/', $_SERVER['DOCUMENT_ROOT'] . '/local/components/', true, true);
-        CopyDirFiles($_SERVER['DOCUMENT_ROOT'] . '/local/themes/' . $this->MODULE_ID . '/install/themes/', $_SERVER['DOCUMENT_ROOT'] . '/local/themes/' . $this->MODULE_ID . '/', true, true);
+        CopyDirFiles($_SERVER['DOCUMENT_ROOT'] . '/local/modules/' . $this->MODULE_ID . '/install/site/public/project.ajax', $_SERVER['DOCUMENT_ROOT'] . '/project.ajax/', true, true);
+        CopyDirFiles($_SERVER['DOCUMENT_ROOT'] . '/local/modules/' . $this->MODULE_ID . '/install/themes/', $_SERVER['DOCUMENT_ROOT'] . '/local/themes/' . $this->MODULE_ID . '/', true, true);
     }
 
     public function UnInstallFiles() {
         DeleteDirFiles($_SERVER['DOCUMENT_ROOT'] . '/local/modules/' . $this->MODULE_ID . '/install/components/', $_SERVER['DOCUMENT_ROOT'] . '/local/components/');
-        DeleteDirFiles($_SERVER['DOCUMENT_ROOT'] . '/local/themes/' . $this->MODULE_ID . '/install/themes/', $_SERVER['DOCUMENT_ROOT'] . '/local/themes/' . $this->MODULE_ID . '/'); //css
+        DeleteDirFiles($_SERVER['DOCUMENT_ROOT'] . '/local/modules/' . $this->MODULE_ID . '/install/site/public/project.ajax', $_SERVER['DOCUMENT_ROOT'] . '/project.ajax/');
+        DeleteDirFiles($_SERVER['DOCUMENT_ROOT'] . '/local/modules/' . $this->MODULE_ID . '/install/themes/', $_SERVER['DOCUMENT_ROOT'] . '/local/themes/' . $this->MODULE_ID . '/'); //css
     }
 
 }
