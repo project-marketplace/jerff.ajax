@@ -234,7 +234,6 @@ gulp.task('version', () => {
 gulp.task('tools', () => {
     const version = getVersionFolderName();
     for(let index in tools) {
-        console.log(index, tools[index].search);
         git.exec({args: 'submodule status '+ index}, function (err, stdout) {
             if (err) throw err;
             stdout = stdout.split(' ');
@@ -296,6 +295,17 @@ gulp.task('build_utf8', (callback) => {
         itemName = modulName;
         souseName = 'utf8';
         sequence('clean', 'move', 'tools', 'version', 'archive', 'rename', 'clean', callback);
+    }).catch((error) => {
+        console.log(error);
+    });
+});
+
+// Сборка текущей версии модуля
+gulp.task('build', (callback) => {
+    getTags().then(function(output) {
+        const versions = parseVersions(output);
+        lastVersion = previousVersion = versions[0];
+        sequence('clean', 'move', 'tools', callback);
     }).catch((error) => {
         console.log(error);
     });
