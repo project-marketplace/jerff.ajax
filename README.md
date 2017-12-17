@@ -29,8 +29,12 @@ $APPLICATION->IncludeComponent("project.ajax:wrapper", "develop.webform", array(
 - установка
 ```sh
 npm install gulp gulp-clean gulp-file gulp-git gulp-iconv gulp-rename gulp-zip moment run-sequence  --save
-```sh
+```
 - обновление
 ```sh
 npm update
+```
+- запустить gulp
 ```sh
+gulp
+```
