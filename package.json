@@ -1,0 +1,35 @@
+{
+  "name": "project.ajax",
+  "version": "1.0.0",
+  "description": "Модуль ajax форм",
+  "main": "gulpfile.js",
+  "scripts": {
+    "gulp": "./node_modules/.bin/gulp",
+    "build_last_version": "./node_modules/.bin/gulp build_last_version"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.org/project-tm/project.ajax.git"
+  },
+  "keywords": [
+    "ajax"
+  ],
+  "author": "Alexej Popov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://bitbucket.org/project-tm/project.ajax/issues"
+  },
+  "homepage": "https://bitbucket.org/project-tm/project.ajax#readme",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-copy": "^1.0.1",
+    "gulp-file": "^0.3.0",
+    "gulp-git": "^2.4.2",
+    "gulp-iconv": "0.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-zip": "^4.0.0",
+    "moment": "^2.20.0",
+    "run-sequence": "^2.2.0"
+  }
+}
