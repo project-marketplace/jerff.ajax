@@ -218,9 +218,6 @@ gulp.task('version', () => {
     const version = getVersionFolderName();
     const fileContent = createVersionFileContent(lastVersion.version, lastVersion.date);
 
-//    gulp.src(path.join(buildFolder, version, 'install', 'version.php'))
-//        .pipe(file('version.php', fileContent))
-//        .pipe(gulp.dest(path.join('install')))
     return gulp.src(path.join(buildFolder, version, 'install', 'version.php'))
         .pipe(file('version.php', fileContent))
         .pipe(gulp.dest(path.join('install')))
