@@ -28,7 +28,7 @@ $APPLICATION->IncludeComponent("project.ajax:wrapper", "develop.webform", array(
 - для версионности необходимо устанавливать тег версий 1.0.0, 1.1.0 и так далее
 - установка
 ```sh
-npm install gulp gulp-clean gulp-file gulp-git gulp-iconv gulp-rename gulp-zip moment run-sequence  --save
+npm install gulp gulp-clean gulp-file gulp-replace gulp-git gulp-iconv gulp-rename gulp-zip moment run-sequence --save
 ```
 - обновление
 ```sh

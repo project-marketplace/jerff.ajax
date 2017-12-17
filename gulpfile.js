@@ -5,6 +5,7 @@ let gulp = require('gulp'),
     git = require('gulp-git'),
     path = require('path'),
     rename = require('gulp-rename'),
+    replace = require('gulp-replace'),
     zip = require('gulp-zip'),
     file = require('gulp-file'),
     os = require('os'),
@@ -15,6 +16,11 @@ let gulp = require('gulp'),
 const modulName = 'project.ajax';
 const buildFolder = 'build';
 const distrFolder = 'dist';
+const tools = {
+    'project.tools': {
+        search: 'Project\\Tools'
+    }
+};
 
 let lastVersion = null;
 let previousVersion = null;
@@ -224,6 +230,27 @@ gulp.task('version', () => {
         .pipe(gulp.dest(path.join(buildFolder, version, 'install')));
 });
 
+// Заменяем подмодули
+gulp.task('tools', () => {
+    const version = getVersionFolderName();
+    for(let index in tools) {
+        console.log(index, tools[index].search);
+        git.exec({args: 'submodule status '+ index}, function (err, stdout) {
+            if (err) throw err;
+            stdout = stdout.split(' ');
+            let rev = stdout[1];
+            gulp.src(path.join(buildFolder, version, '**/*.php'))
+                .pipe(replace(tools[index].search, function() {
+                    return 'Project\\Ver'+ rev +'\\Tools';
+                }))
+                .pipe(gulp.dest(path.join(buildFolder, version)));
+        });
+
+    }
+//    tools.each(function(k, v) {
+//    });
+});
+
 // Перенос последней версии модуля в директорию сборки
 gulp.task('diff', (callback) => {
     git.exec({args: `diff ${previousVersion.version} --name-only`}, (error, output) => {
@@ -255,7 +282,7 @@ gulp.task('build_cp1251', (callback) => {
         lastVersion = previousVersion = versions[0];
         itemName = modulName;
         souseName = 'cp1251';
-        sequence('clean', 'move', 'version', 'encode', 'archive', 'rename', 'clean', callback);
+        sequence('clean', 'move', 'tools', 'version', 'encode', 'archive', 'rename', 'clean', callback);
     }).catch((error) => {
         console.log(error);
     });
@@ -268,7 +295,7 @@ gulp.task('build_utf8', (callback) => {
         lastVersion = previousVersion = versions[0];
         itemName = modulName;
         souseName = 'utf8';
-        sequence('clean', 'move', 'version', 'archive', 'rename', 'clean', callback);
+        sequence('clean', 'move', 'tools', 'version', 'archive', 'rename', 'clean', callback);
     }).catch((error) => {
         console.log(error);
     });
@@ -279,7 +306,7 @@ gulp.task('build_last_version', (callback) => {
     getTags().then(function(output) {
         const versions = parseVersions(output);
         lastVersion = previousVersion = versions[0];
-        sequence('clean', 'move', 'version', 'encode', 'archive', 'dist_last', 'clean', callback);
+        sequence('clean', 'move', 'tools', 'version', 'encode', 'archive', 'dist_last', 'clean', callback);
     }).catch((error) => {
         console.log(error);
     });
@@ -291,7 +318,7 @@ gulp.task('build_update', (callback) => {
         const versions = parseVersions(output);
         lastVersion = versions[0];
         previousVersion = versions[1];
-        sequence('clean', 'diff', 'version', 'encode', 'archive', 'dist', callback);
+        sequence('clean', 'diff', 'tools', 'version', 'encode', 'archive', 'dist', callback);
     }).catch((error) => {
         console.log(error);
     });
