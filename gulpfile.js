@@ -4,8 +4,9 @@ let gulp = require('gulp'),
     copy = require('gulp-copy'),
     git = require('gulp-git'),
     path = require('path'),
+    trim = require('gulp-trim'),
     rename = require('gulp-rename'),
-    replace = require('gulp-replace'),
+    replace = require('gulp-batch-replace'),
     zip = require('gulp-zip'),
     file = require('gulp-file'),
     os = require('os'),
@@ -17,16 +18,14 @@ const modulName = 'project.ajax';
 const buildFolder = 'build';
 const distrFolder = 'dist';
 const tools = {
-    'project.tools': {
-        search: 'Project\\Tools'
-    }
+    'project.tools': ['Project', 'Tools']
 };
 
 let lastVersion = null;
 let previousVersion = null;
 let itemName = null;
 let souseName = null;
-
+let toolsReplace = [];
 /**
  * Проверка на число
  * @param n
@@ -219,7 +218,7 @@ gulp.task('dist_last', () => {
 });
 
 // Заменяет файл с версией модуля
-gulp.task('version', () => {
+gulp.task('version', ['tools'], () => {
 
     const version = getVersionFolderName();
     const fileContent = createVersionFileContent(lastVersion.version, lastVersion.date);
@@ -231,23 +230,31 @@ gulp.task('version', () => {
 });
 
 // Заменяем подмодули
-gulp.task('tools', () => {
+gulp.task('tools', ['tools-version'], (callback) => {
     const version = getVersionFolderName();
-    for(let index in tools) {
-        git.exec({args: 'submodule status '+ index}, function (err, stdout) {
-            if (err) throw err;
-            stdout = stdout.split(' ');
-            let rev = stdout[1];
-            gulp.src(path.join(buildFolder, version, '**/*.php'))
-                .pipe(replace(tools[index].search, function() {
-                    return 'Project\\Ver'+ rev +'\\Tools';
-                }))
-                .pipe(gulp.dest(path.join(buildFolder, version)));
-        });
+    gulp.src(path.join(buildFolder, version, '**/*.php'), {dot: true})
+        .pipe(replace(toolsReplace))
+        .pipe(gulp.dest(path.join(buildFolder, version)))
+        .on('end', callback);
+});
 
-    }
-//    tools.each(function(k, v) {
-//    });
+gulp.task('tools-version', (callback) => {
+    git.exec({args: 'submodule status'}, (error, output) => {
+        if (error) {
+            throw error;
+        }
+        output = output.split(os.EOL);
+        for(let index in output) {
+            let rev = output[index].trim().split(' ');
+            if(tools[rev[1]]) {
+                let item = tools[rev[1]];
+//                console.log(rev[1], rev[0]);
+                toolsReplace.push([item[0] + '\\'+ item[1], item[0] + '\\Ver'+ rev[0] + '\\'+ item[1]]);
+            }
+        }
+//        console.log(toolsReplace);
+        callback();
+    });
 });
 
 // Перенос последней версии модуля в директорию сборки
@@ -294,7 +301,7 @@ gulp.task('build_utf8', (callback) => {
         lastVersion = previousVersion = versions[0];
         itemName = modulName;
         souseName = 'utf8';
-        sequence('clean', 'move', 'tools', 'version', 'archive', 'rename', 'clean', callback);
+        sequence('clean', 'move', 'version', 'archive', 'rename', 'clean', callback);
     }).catch((error) => {
         console.log(error);
     });
@@ -305,7 +312,9 @@ gulp.task('build', (callback) => {
     getTags().then(function(output) {
         const versions = parseVersions(output);
         lastVersion = previousVersion = versions[0];
-        sequence('clean', 'move', 'tools', callback);
+        itemName = modulName;
+        souseName = 'utf8';
+        sequence('clean', 'move', 'version', 'archive', callback);
     }).catch((error) => {
         console.log(error);
     });
@@ -316,7 +325,7 @@ gulp.task('build_last_version', (callback) => {
     getTags().then(function(output) {
         const versions = parseVersions(output);
         lastVersion = previousVersion = versions[0];
-        sequence('clean', 'move', 'tools', 'version', 'encode', 'archive', 'dist_last', 'clean', callback);
+        sequence('clean', 'move', 'version', 'encode', 'archive', 'dist_last', 'clean', callback);
     }).catch((error) => {
         console.log(error);
     });
@@ -328,7 +337,7 @@ gulp.task('build_update', (callback) => {
         const versions = parseVersions(output);
         lastVersion = versions[0];
         previousVersion = versions[1];
-        sequence('clean', 'diff', 'tools', 'version', 'encode', 'archive', 'dist', callback);
+        sequence('clean', 'diff', 'version', 'encode', 'archive', 'dist', callback);
     }).catch((error) => {
         console.log(error);
     });
