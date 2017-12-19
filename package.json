@@ -22,15 +22,17 @@
   "homepage": "https://bitbucket.org/project-tm/project.ajax#readme",
   "dependencies": {
     "gulp": "^3.9.1",
+    "gulp-batch-replace": "0.0.0",
     "gulp-clean": "^0.3.2",
     "gulp-copy": "^1.0.1",
     "gulp-file": "^0.3.0",
     "gulp-git": "^2.4.2",
     "gulp-iconv": "0.0.1",
     "gulp-rename": "^1.2.2",
-    "gulp-replace": "^0.6.1",
+    "gulp-trim": "^1.0.2",
     "gulp-zip": "^4.0.0",
-    "moment": "^2.20.0",
+    "moment": "^2.20.1",
+    "path": "^0.12.7",
     "run-sequence": "^2.2.0"
   }
 }

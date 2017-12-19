@@ -174,10 +174,17 @@ gulp.task('clean', () => {
 });
 
 // Копирование всех файлов модуля в директорию сборки
-gulp.task('move', () => {
+gulp.task('move', ['version'], () => {
     const version = getVersionFolderName();
     return gulp.src(extendGlob('./**'), {base: './'})
         .pipe(gulp.dest(path.join(buildFolder, version)));
+});
+
+// Заменяет файл с версией модуля
+gulp.task('version', () => {
+    const fileContent = createVersionFileContent(lastVersion.version, lastVersion.date);
+    return file('version.php', fileContent, { src: true })
+            .pipe(gulp.dest('install'));
 });
 
 // Кодирование в 1251
@@ -192,50 +199,19 @@ gulp.task('encode', () => {
 });
 
 // Архивирует в zip
-gulp.task('archive', () => {
+gulp.task('archive', ['tools'], () => {
     const version = getVersionArchiveName();
     return gulp.src(path.join(buildFolder, '**/*'), {dot: true})
         .pipe(zip(version + '.zip', {compress: true}))
         .pipe(gulp.dest(buildFolder));
 });
 
-// Переносит в директорию с дистрибутивом
-gulp.task('dist', () => {
-    return gulp.src([
-        //path.join(buildFolder, '*.tar.gz'),
-        path.join(buildFolder, '*.zip')
-    ])
-    .pipe(gulp.dest(distrFolder));
-});
-
-// Переносит в директорию с дистрибутивом
-gulp.task('dist_last', () => {
-    return gulp.src([
-        //path.join(buildFolder, '*.tar.gz'),
-        path.join(buildFolder, '\.*.zip')
-    ])
-    .pipe(gulp.dest(distrFolder));
-});
-
-// Заменяет файл с версией модуля
-gulp.task('version', ['tools'], () => {
-
-    const version = getVersionFolderName();
-    const fileContent = createVersionFileContent(lastVersion.version, lastVersion.date);
-
-    return gulp.src(path.join(buildFolder, version, 'install', 'version.php'))
-        .pipe(file('version.php', fileContent))
-        .pipe(gulp.dest(path.join('install')))
-        .pipe(gulp.dest(path.join(buildFolder, version, 'install')));
-});
-
 // Заменяем подмодули
 gulp.task('tools', ['tools-version'], (callback) => {
     const version = getVersionFolderName();
-    gulp.src(path.join(buildFolder, version, '**/*.php'), {dot: true})
+    return gulp.src(path.join(buildFolder, version, '**/*.php'), {dot: true})
         .pipe(replace(toolsReplace))
-        .pipe(gulp.dest(path.join(buildFolder, version)))
-        .on('end', callback);
+        .pipe(gulp.dest(path.join(buildFolder, version)));
 });
 
 gulp.task('tools-version', (callback) => {
@@ -257,8 +233,26 @@ gulp.task('tools-version', (callback) => {
     });
 });
 
+// Переносит в директорию с дистрибутивом
+gulp.task('dist', () => {
+    return gulp.src([
+        //path.join(buildFolder, '*.tar.gz'),
+        path.join(buildFolder, '*.zip')
+    ])
+    .pipe(gulp.dest(distrFolder));
+});
+
+// Переносит в директорию с дистрибутивом
+gulp.task('dist_last', () => {
+    return gulp.src([
+        //path.join(buildFolder, '*.tar.gz'),
+        path.join(buildFolder, '\.*.zip')
+    ])
+    .pipe(gulp.dest(distrFolder));
+});
+
 // Перенос последней версии модуля в директорию сборки
-gulp.task('diff', (callback) => {
+gulp.task('diff', ['version'], (callback) => {
     git.exec({args: `diff ${previousVersion.version} --name-only`}, (error, output) => {
         if (error) {
             callback(error);
@@ -288,7 +282,7 @@ gulp.task('build_cp1251', (callback) => {
         lastVersion = previousVersion = versions[0];
         itemName = modulName;
         souseName = 'cp1251';
-        sequence('clean', 'move', 'tools', 'version', 'encode', 'archive', 'rename', 'clean', callback);
+        sequence('clean', 'move', 'encode', 'archive', 'rename', 'clean', callback);
     }).catch((error) => {
         console.log(error);
     });
@@ -301,7 +295,7 @@ gulp.task('build_utf8', (callback) => {
         lastVersion = previousVersion = versions[0];
         itemName = modulName;
         souseName = 'utf8';
-        sequence('clean', 'move', 'version', 'archive', 'rename', 'clean', callback);
+        sequence('clean', 'move', 'archive', 'rename', 'clean', callback);
     }).catch((error) => {
         console.log(error);
     });
@@ -314,7 +308,7 @@ gulp.task('build', (callback) => {
         lastVersion = previousVersion = versions[0];
         itemName = modulName;
         souseName = 'utf8';
-        sequence('clean', 'move', 'version', 'archive', callback);
+        sequence('clean', 'move', 'archive', callback);
     }).catch((error) => {
         console.log(error);
     });
@@ -325,7 +319,7 @@ gulp.task('build_last_version', (callback) => {
     getTags().then(function(output) {
         const versions = parseVersions(output);
         lastVersion = previousVersion = versions[0];
-        sequence('clean', 'move', 'version', 'encode', 'archive', 'dist_last', 'clean', callback);
+        sequence('clean', 'move', 'encode', 'archive', 'dist_last', 'clean', callback);
     }).catch((error) => {
         console.log(error);
     });
@@ -337,7 +331,7 @@ gulp.task('build_update', (callback) => {
         const versions = parseVersions(output);
         lastVersion = versions[0];
         previousVersion = versions[1];
-        sequence('clean', 'diff', 'version', 'encode', 'archive', 'dist', callback);
+        sequence('clean', 'diff', 'encode', 'archive', 'dist', callback);
     }).catch((error) => {
         console.log(error);
     });
