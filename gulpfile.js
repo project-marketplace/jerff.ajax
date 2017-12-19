@@ -65,7 +65,6 @@ const getTags = () => {
             if (error) {
                 throw error;
             }
-
             resolve(output);
         });
     });
@@ -257,9 +256,7 @@ gulp.task('diff', ['version'], (callback) => {
         if (error) {
             callback(error);
         }
-
         const globs = extendGlob(output.split(os.EOL));
-
         gulp.src(globs, {base: './'})
             .pipe(gulp.dest(path.join(buildFolder, getVersionFolderName())))
             .on('end', callback);
@@ -296,19 +293,6 @@ gulp.task('build_utf8', (callback) => {
         itemName = modulName;
         souseName = 'utf8';
         sequence('clean', 'move', 'archive', 'rename', 'clean', callback);
-    }).catch((error) => {
-        console.log(error);
-    });
-});
-
-// Сборка текущей версии модуля
-gulp.task('build', (callback) => {
-    getTags().then(function(output) {
-        const versions = parseVersions(output);
-        lastVersion = previousVersion = versions[0];
-        itemName = modulName;
-        souseName = 'utf8';
-        sequence('clean', 'move', 'archive', callback);
     }).catch((error) => {
         console.log(error);
     });
