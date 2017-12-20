@@ -74,7 +74,7 @@ gulp.task('build_last_version', getTask('build_last_version'));
 gulp.task('build_update', getTask('build_update'));
 
 gulp.task('build', (callback) => {
-    plugins.sequence('clean', 'move', 'encode', callback);
+    plugins.sequence('clean', 'move', 'encode', 'archive', callback);
 });
 
 // Дефолтная задача. Собирает все по очереди
