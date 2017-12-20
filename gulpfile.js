@@ -1,4 +1,9 @@
 
+/*
+ npm install gulp gulp-load-plugins
+ npm install gulp-convert-encoding gulp-clean gulp-file gulp-git gulp-rename gulp-batch-replace gulp-tar gulp-gzip moment run-sequence
+ */
+
 let gulp = require('gulp'),
         plugins = require('gulp-load-plugins')(),
         config = {
@@ -18,10 +23,8 @@ let gulp = require('gulp'),
             ]
         },
         setting = {
-            sourse: config.name,
-            tools: []
+            sourse: config.name
         };
-plugins.replace = require('gulp-batch-replace');
 plugins.path = require('path');
 plugins.os = require('os');
 plugins.moment = require('moment');
@@ -43,6 +46,9 @@ gulp.task('version-tools', getTask('version-tools'));
 // Очистка директории со сборкой
 gulp.task('clean', getTask('clean'));
 
+// Очистка директории со сборкой
+gulp.task('clean_sourse', getTask('clean_sourse'));
+
 // Копирование всех файлов модуля в директорию сборки
 gulp.task('move', ['version'], getTask('move'));
 
@@ -53,19 +59,13 @@ gulp.task('diff', ['version'], getTask('diff'));
 gulp.task('encode', getTask('encode'));
 
 // Архивирует в zip
-gulp.task('archive', ['tools'], getTask('archive'));
+gulp.task('archive', getTask('archive'));
 
 // Заменяем подмодули
 gulp.task('tools', getTask('tools'));
 
-// Сборка текущей версии модуля cp1251
-gulp.task('build_encode', getTask('build_encode'));
-
-// Сборка текущей версии модуля utf-8
-gulp.task('build_utf8', getTask('build_utf8'));
-
-// Сборка текущей версии модуля cp1251
-gulp.task('build_cp1251', getTask('build_cp1251'));
+// Сборка текущей версии модуля
+gulp.task('build', getTask('build'));
 
 // Сборка текущей версии модуля
 gulp.task('build_last_version', getTask('build_last_version'));
@@ -73,12 +73,8 @@ gulp.task('build_last_version', getTask('build_last_version'));
 // Сборка обновления модуля (разница между последней и предпоследней версией по тегам git)
 gulp.task('build_update', getTask('build_update'));
 
-gulp.task('build', (callback) => {
-    plugins.sequence('clean', 'move', 'encode', 'archive', callback);
-});
-
 // Дефолтная задача. Собирает все по очереди
 gulp.task('default', (callback) => {
-    plugins.sequence('build_last_version', 'build_update', 'build_utf8', 'build_cp1251', callback);
+    plugins.sequence('build_last_version', 'build_update', callback);
 });
 // Дефолтная задача. Собирает все по очереди
