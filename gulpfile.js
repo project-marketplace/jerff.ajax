@@ -59,35 +59,19 @@ gulp.task('archive', ['tools'], getTask('archive'));
 gulp.task('tools', getTask('tools'));
 
 // Сборка текущей версии модуля cp1251
-gulp.task('build_encode', (callback) => {
-    plugins.sequence('clean', 'move', 'encode', 'archive', 'clean', callback);
-});
+gulp.task('build_encode', getTask('build_encode'));
 
 // Сборка текущей версии модуля utf-8
-gulp.task('build_utf8', (callback) => {
-    setting.file = 'utf8';
-    plugins.sequence('clean', 'move', 'archive', 'clean', callback);
-});
+gulp.task('build_utf8', getTask('build_utf8'));
 
 // Сборка текущей версии модуля cp1251
-gulp.task('build_cp1251', (callback) => {
-    setting.file = 'cp1251';
-    plugins.sequence('build_encode', callback);
-});
+gulp.task('build_cp1251', getTask('build_cp1251'));
 
 // Сборка текущей версии модуля
-gulp.task('build_last_version', (callback) => {
-    setting.file = setting.sourse = '.last_version';
-    plugins.sequence('build_encode', callback);
-});
+gulp.task('build_last_version', getTask('build_last_version'));
 
 // Сборка обновления модуля (разница между последней и предпоследней версией по тегам git)
-gulp.task('build_update', (callback) => {
-    plugins.sequence('clean', function () {
-        setting.file = setting.sourse = setting.version;
-        plugins.sequence('diff', 'encode', 'archive', 'clean', callback);
-    });
-});
+gulp.task('build_update', getTask('build_update'));
 
 gulp.task('build', (callback) => {
     plugins.sequence('clean', 'move', 'encode', callback);
