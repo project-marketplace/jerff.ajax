@@ -1,12 +1,12 @@
 [submodule "project.tools"]
 	path = project.tools
-	url = https://bitbucket.org/project-tm/project.tools.git
+	url = git@bitbucket.org:project-tm/project.tools.git
 [submodule "install/components/project.ajax"]
 	path = install/components/project.ajax
-	url = https://bitbucket.org/project-tm-component/project.ajax
+	url = git@bitbucket.org:project-tm-component/project.ajax
 [submodule "install/components/project.form"]
 	path = install/components/project.form
-	url = https://bitbucket.org/project-tm-component/project.form
+	url = git@bitbucket.org:project-tm-component/project.form
 [submodule "install/site/public/project.ajax"]
 	path = install/site/public/project.ajax
-	url = https://bitbucket.org/project-tm-component/public.project.ajax
+	url = git@bitbucket.org:project-tm-component/public.project.ajax
