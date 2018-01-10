@@ -1,35 +1,24 @@
-
+"use strict";
 /*
- npm install gulp gulp-load-plugins
- npm install gulp-convert-encoding gulp-clean gulp-file gulp-git gulp-rename gulp-batch-replace gulp-tar gulp-gzip moment run-sequence
+ npm install gulp@4.0.0 gulp-build-bitrix-modul --save
  */
 
-const config = {
+let gulp = require('gulp');
+let build = require('gulp-build-bitrix-modul')({
     name: 'project.ajax',
-    task: './project.tools/gulp/',
-    build: 'build',
-    dist: 'dist',
     tools: {
         'project.tools': ['Project', 'Tools']
-    },
-    path: [
-        '!{node_modules,node_modules/**}',
-        '!{build,build/**}',
-        '!{dist,dist/**}',
-        '!*.js',
-        '!*.json'
-    ]
-};
-let gulp = require('gulp'),
-        plugins = require('gulp-load-plugins')(),
-        setting = {
-            sourse: config.name
-        };
-require(config.task + 'load')(gulp, plugins, config, setting);
+    }
+});
+
+// Сборка текущей версии модуля
+gulp.task('release', build.release);
+
+// Сборка текущей версии модуля для маркеплейса
+gulp.task('last_version', build.last_version);
+
+// Сборка обновления модуля (разница между последней и предпоследней версией по тегам git)
+gulp.task('build_update', build.update);
 
 // Дефолтная задача. Собирает все по очереди
-gulp.task('default', (callback) => {
-//    plugins.sequence('tools', callback);
-    plugins.sequence('build_last_version', 'build_update', callback);
-});
-// Дефолтная задача. Собирает все по очереди
+gulp.task('default', gulp.series('release'));

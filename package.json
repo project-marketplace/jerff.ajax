@@ -21,17 +21,7 @@
   },
   "homepage": "https://bitbucket.org/project-tm/project.ajax#readme",
   "dependencies": {
-    "gulp": "^3.9.1",
-    "gulp-batch-replace": "0.0.0",
-    "gulp-clean": "^0.3.2",
-    "gulp-convert-encoding": "^1.0.0",
-    "gulp-file": "^0.3.0",
-    "gulp-git": "^2.4.2",
-    "gulp-gzip": "^1.4.0",
-    "gulp-load-plugins": "^1.5.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-tar": "^2.0.0",
-    "moment": "^2.20.1",
-    "run-sequence": "^2.2.0"
+    "gulp": "^4.0.0",
+    "gulp-build-bitrix-modul": "^1.1.0"
   }
 }
