@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('\Project\Tools\Modules\IS_START')) {
-    include_once(dirname(__DIR__) . '/project.tools/modules/install.php');
+    include_once(dirname(__DIR__) . '/project.tools/include.php');
 }
 
 use Bitrix\Main\Localization\Loc,
