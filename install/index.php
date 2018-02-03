@@ -12,6 +12,10 @@ IncludeModuleLangFile(__FILE__);
 class project_ajax extends CModule {
 
     public $MODULE_ID = 'project.ajax';
+    public $MODULE_NAME;
+    public $MODULE_DESCRIPTION;
+    public $MODULE_VERSION;
+    public $MODULE_VERSION_DATE;
 
     use Modules\Install;
 
@@ -23,6 +27,14 @@ class project_ajax extends CModule {
         $this->PARTNER_URI = Loc::getMessage('PROJECT_AJAX_PARTNER_URI');
     }
 
+    public function DoInstall() {
+        $this->Install();
+    }
+
+    public function DoUninstall() {
+        $this->Uninstall();
+    }
+
     /*
      * InstallFiles
      */
@@ -30,13 +42,11 @@ class project_ajax extends CModule {
     public function InstallFiles($arParams = array()) {
         CopyDirFiles($_SERVER['DOCUMENT_ROOT'] . '/local/modules/' . $this->MODULE_ID . '/install/components/', $_SERVER['DOCUMENT_ROOT'] . '/local/components/', true, true);
         CopyDirFiles($_SERVER['DOCUMENT_ROOT'] . '/local/modules/' . $this->MODULE_ID . '/install/site/public/project.ajax', $_SERVER['DOCUMENT_ROOT'] . '/project.ajax/', true, true);
-        CopyDirFiles($_SERVER['DOCUMENT_ROOT'] . '/local/modules/' . $this->MODULE_ID . '/install/themes/', $_SERVER['DOCUMENT_ROOT'] . '/local/themes/' . $this->MODULE_ID . '/', true, true);
     }
 
     public function UnInstallFiles() {
         DeleteDirFiles($_SERVER['DOCUMENT_ROOT'] . '/local/modules/' . $this->MODULE_ID . '/install/components/', $_SERVER['DOCUMENT_ROOT'] . '/local/components/');
         DeleteDirFiles($_SERVER['DOCUMENT_ROOT'] . '/local/modules/' . $this->MODULE_ID . '/install/site/public/project.ajax', $_SERVER['DOCUMENT_ROOT'] . '/project.ajax/');
-        DeleteDirFiles($_SERVER['DOCUMENT_ROOT'] . '/local/modules/' . $this->MODULE_ID . '/install/themes/', $_SERVER['DOCUMENT_ROOT'] . '/local/themes/' . $this->MODULE_ID . '/'); //css
     }
 
 }

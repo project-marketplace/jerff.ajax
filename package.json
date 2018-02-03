@@ -22,6 +22,6 @@
   "homepage": "https://bitbucket.org/project-tm/project.ajax#readme",
   "dependencies": {
     "gulp": "^4.0.0",
-    "gulp-build-bitrix-modul": "^1.1.0"
+    "gulp-build-bitrix-modul": "^1.5.3"
   }
 }
