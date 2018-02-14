@@ -9,9 +9,9 @@ use Bitrix\Main\Localization\Loc,
 
 IncludeModuleLangFile(__FILE__);
 
-class project_ajax extends CModule {
+class jerff_ajax extends CModule {
 
-    public $MODULE_ID = 'project.ajax';
+    public $MODULE_ID = 'jerff.ajax';
     public $MODULE_NAME;
     public $MODULE_DESCRIPTION;
     public $MODULE_VERSION;
@@ -20,11 +20,11 @@ class project_ajax extends CModule {
     use Modules\Install;
 
     function __construct() {
-        $this->setParam(__DIR__, 'PROJECT_AJAX');
-        $this->MODULE_NAME = Loc::getMessage('PROJECT_AJAX_NAME');
-        $this->MODULE_DESCRIPTION = Loc::getMessage('PROJECT_AJAX_DESCRIPTION');
-        $this->PARTNER_NAME = Loc::getMessage('PROJECT_AJAX_PARTNER_NAME');
-        $this->PARTNER_URI = Loc::getMessage('PROJECT_AJAX_PARTNER_URI');
+        $this->setParam(__DIR__, 'JERFF_AJAX');
+        $this->MODULE_NAME = Loc::getMessage('JERFF_AJAX_NAME');
+        $this->MODULE_DESCRIPTION = Loc::getMessage('JERFF_AJAX_DESCRIPTION');
+        $this->PARTNER_NAME = Loc::getMessage('JERFF_AJAX_PARTNER_NAME');
+        $this->PARTNER_URI = Loc::getMessage('JERFF_AJAX_PARTNER_URI');
     }
 
     public function DoInstall() {

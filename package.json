@@ -1,5 +1,5 @@
 {
-  "name": "project.ajax",
+  "name": "jerff.ajax",
   "version": "1.0.0",
   "description": "Модуль ajax форм",
   "main": "gulpfile.js",
@@ -17,11 +17,11 @@
   "author": "Alexej Popov",
   "license": "ISC",
   "bugs": {
-    "url": "https://bitbucket.org/project-tm/project.ajax/issues"
+    "url": "https://bitbucket.org/project-tm/jerff.ajax/issues"
   },
-  "homepage": "https://bitbucket.org/project-tm/project.ajax#readme",
+  "homepage": "https://bitbucket.org/project-tm/jerff.ajax#readme",
   "dependencies": {
     "gulp": "^4.0.0",
-    "gulp-build-bitrix-modul": "^1.5.3"
+    "gulp-build-bitrix-modul": "^1.5.4"
   }
 }

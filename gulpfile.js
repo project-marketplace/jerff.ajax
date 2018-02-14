@@ -5,7 +5,7 @@
 
 let gulp = require('gulp');
 let build = require('gulp-build-bitrix-modul')({
-    name: 'project.ajax',
+    name: 'jerff.ajax',
     tools: {
         'project.tools': ['Project', 'Tools']
     }
@@ -21,4 +21,4 @@ gulp.task('last_version', build.last_version);
 gulp.task('build_update', build.update);
 
 // Дефолтная задача. Собирает все по очереди
-gulp.task('default', gulp.series('release'));
+gulp.task('default', gulp.series('last_version', 'build_update'));
