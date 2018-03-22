@@ -3,10 +3,10 @@
 	url = git@bitbucket.org:project-tm/project.tools.git
 [submodule "install/components/project.ajax"]
 	path = install/components/project.ajax
-	url = git@bitbucket.org:project-tm-component/project.ajax
+	url = git@bitbucket.org:project-tm-component/project.ajax.git
 [submodule "install/components/project.form"]
 	path = install/components/project.form
-	url = git@bitbucket.org:project-tm-component/project.form
+	url = git@bitbucket.org:project-tm-component/project.form.git
 [submodule "install/site/public/project.ajax"]
 	path = install/site/public/project.ajax
-	url = git@bitbucket.org:project-tm-component/public.project.ajax
+	url = git@bitbucket.org:project-tm-component/public.project.ajax.git
