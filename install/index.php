@@ -5,6 +5,7 @@ if (!defined('\Project\Tools\Modules\IS_START')) {
 }
 
 use Bitrix\Main\Localization\Loc,
+    Bitrix\Main\Application,
     Project\Tools\Modules;
 
 IncludeModuleLangFile(__FILE__);
@@ -40,13 +41,13 @@ class jerff_ajax extends CModule {
      */
 
     public function InstallFiles($arParams = array()) {
-        CopyDirFiles($_SERVER['DOCUMENT_ROOT'] . '/local/modules/' . $this->MODULE_ID . '/install/components/', $_SERVER['DOCUMENT_ROOT'] . '/local/components/', true, true);
-        CopyDirFiles($_SERVER['DOCUMENT_ROOT'] . '/local/modules/' . $this->MODULE_ID . '/install/site/public/project.ajax', $_SERVER['DOCUMENT_ROOT'] . '/project.ajax/', true, true);
+        CopyDirFiles(__DIR__ . '/components/', Application::getDocumentRoot() . '/local/components/', true, true);
+        CopyDirFiles(__DIR__ . '/site/public/project.ajax', Application::getDocumentRoot() . '/project.ajax/', true, true);
     }
 
     public function UnInstallFiles() {
-        DeleteDirFiles($_SERVER['DOCUMENT_ROOT'] . '/local/modules/' . $this->MODULE_ID . '/install/components/', $_SERVER['DOCUMENT_ROOT'] . '/local/components/');
-        DeleteDirFiles($_SERVER['DOCUMENT_ROOT'] . '/local/modules/' . $this->MODULE_ID . '/install/site/public/project.ajax', $_SERVER['DOCUMENT_ROOT'] . '/project.ajax/');
+        DeleteDirFiles(__DIR__ . '/components/', Application::getDocumentRoot() . '/local/components/');
+        DeleteDirFiles(__DIR__ . '/site/public/project.ajax', Application::getDocumentRoot() . '/project.ajax/');
     }
 
 }
