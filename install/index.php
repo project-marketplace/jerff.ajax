@@ -17,6 +17,8 @@ class jerff_ajax extends CModule {
     public $MODULE_DESCRIPTION;
     public $MODULE_VERSION;
     public $MODULE_VERSION_DATE;
+    public $PARTNER_NAME;
+    public $PARTNER_URI;
 
     use Modules\Install;
 
