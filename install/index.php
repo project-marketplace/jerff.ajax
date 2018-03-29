@@ -24,10 +24,10 @@ class jerff_ajax extends CModule {
 
     function __construct() {
         $this->setParam(__DIR__, 'JERFF_AJAX');
-        $this->MODULE_NAME = Loc::getMessage('JERFF_AJAX_NAME');
-        $this->MODULE_DESCRIPTION = Loc::getMessage('JERFF_AJAX_DESCRIPTION');
-        $this->PARTNER_NAME = Loc::getMessage('JERFF_AJAX_PARTNER_NAME');
-        $this->PARTNER_URI = Loc::getMessage('JERFF_AJAX_PARTNER_URI');
+        $this->MODULE_NAME = GetMessage('JERFF_AJAX_NAME');
+        $this->MODULE_DESCRIPTION = GetMessage('JERFF_AJAX_DESCRIPTION');
+        $this->PARTNER_NAME = GetMessage('JERFF_AJAX_PARTNER_NAME');
+        $this->PARTNER_URI = GetMessage('JERFF_AJAX_PARTNER_URI');
     }
 
     public function DoInstall() {
@@ -43,12 +43,12 @@ class jerff_ajax extends CModule {
      */
 
     public function InstallFiles($arParams = array()) {
-        CopyDirFiles(__DIR__ . '/components/', Application::getDocumentRoot() . '/local/components/', true, true);
+        CopyDirFiles(__DIR__ . '/components/', Application::getDocumentRoot() . '/bitrix/components/', true, true);
         CopyDirFiles(__DIR__ . '/site/public/project.ajax', Application::getDocumentRoot() . '/project.ajax/', true, true);
     }
 
     public function UnInstallFiles() {
-        DeleteDirFiles(__DIR__ . '/components/', Application::getDocumentRoot() . '/local/components/');
+        DeleteDirFiles(__DIR__ . '/components/', Application::getDocumentRoot() . '/bitrix/components/');
         DeleteDirFiles(__DIR__ . '/site/public/project.ajax', Application::getDocumentRoot() . '/project.ajax/');
     }
 
