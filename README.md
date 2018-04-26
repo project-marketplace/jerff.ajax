@@ -1,4 +1,4 @@
-# Ajax загрузчик, [выложин в маркеплейс](https://marketplace.1c-bitrix.ru/solutions/jerff.ajax/)
+# Ajax загрузчик, [выложен в маркеплейс](https://marketplace.1c-bitrix.ru/solutions/jerff.ajax/)
 
 ## Ajax враппер для списков, форм - project.ajax:wrapper
 
